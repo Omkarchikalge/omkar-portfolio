@@ -19,11 +19,11 @@ const pods = [
 
 const projects = [
   {
-    id:1, featured:true, tag:'platform', tagLabel:'Research',
-    title:'Real-Time Hand Gesture Recognition System',
-    desc:'Built a real-time hand gesture recognition system using MediaPipe hand landmarks and temporal deep learning models (LSTM/GRU). Achieves high accuracy gesture classification with low-latency inference for human-computer interaction.',
-    stack:['Python','MediaPipe','TensorFlow','LSTM','OpenCV','NumPy'],
-    github:'#',
+    id:1, featured:true, tag:'platform', tagLabel:'Automation',
+    title:'Grab-N-Drop Gesture Recognized file transfer system',
+    desc:'Developed a browser-based touchless file transfer platform using MediaPipe, LSTM/GRU gesture recognition, WebRTC, WebSockets, and React.js, enabling real-time cross-device file sharing through Grab and Drop hand gestures with on-device AI inference, end-to-end privacy, and zero specialized hardware requirements.',
+    stack:['React.js', 'MediaPipe', 'Python', 'LSTM/GRU', 'WebRTC', 'WebSockets', 'Node.js', 'Redis', 'Tailwind CSS', 'Three.js'],
+    github:'https://github.com/Omkarchikalge/grab-n-drop',
   },
   {
     id:2, tag:'infra', tagLabel:'Research',
@@ -37,35 +37,28 @@ const projects = [
     title:'Platform Engineering Lab',
     desc:'Personal infrastructure learning environment built on Ubuntu WSL2. Hands-on practice with Linux administration, Git workflows, Docker containerization, and local Kubernetes clusters.',
     stack:['Linux','Docker','Kubernetes','WSL2','Git'],
-    github:'#',
+    github:'In progress - will share setup scripts and documentation soon!',
   },
   {
     id:4, tag:'automation', tagLabel:'Open Source',
     title:'Open Source Contribution Journey',
     desc:'Contributing to open-source projects while learning pull requests, issue triage, and navigating large codebases. Currently exploring CNCF ecosystem projects and DevOps tooling.',
     stack:['Git','GitHub','Open Source','CNCF'],
-    github:'#',
+    github:'Coming soon - will share contribution highlights and guides on my GitHub profile!',
   },
   {
-    id:5, tag:'infra', tagLabel:'Startup',
-    title:'Metsy — Nightlife Discovery Platform',
-    desc:"Building Metsy, an events and nightlife discovery platform targeting India's Tier 2/3 cities. Designed the full UI/UX spec and working on backend infrastructure with a focus on scalability.",
-    stack:['React','Node.js','HTML/CSS','UI/UX Design'],
-    github:'#',
-  },
-  {
-    id:6, tag:'sre', tagLabel:'platform',
+    id:5, tag:'sre', tagLabel:'platform',
     title:'Autonomous Hackathon Idea Generator',
     desc:"Built an AI-powered multi-agent system using CrewAI and LangChain that autonomously researches, generates, evaluates, and prototypes hackathon ideas with automated pitch deck creation and feasibility analysis. Designed the system architecture, implemented agent workflows, and integrated with external APIs for data retrieval and presentation.",
     stack:['Python', 'CrewAI', 'LangChain', 'FastAPI', 'Streamlit', 'Claude/OpenAI API', 'SerpAPI', 'GitHub API', 'PostgreSQL/MongoDB', 'Docker.'],
-    github:'#',
+    github:'https://github.com/Omkarchikalge/hackathon-ai-agent',
   },
   {
-    id:7, tag:'automation', tagLabel:'AIML',
+    id:6, tag:'automation', tagLabel:'AIML',
     title:'Ken AI - AI Search Engine ',
     desc:" Built a full-stack AI-powered search engine inspired by Perplexity AI with real-time streaming answers, source citations, and multi-turn conversation support. Designed the system architecture, implemented the backend with FastAPI and integrated large language models (LLMs) for natural language understanding and response generation. Developed a React frontend with a sleek UI/UX for seamless user interaction.",
     stack:['React', 'Node.js', 'Express', 'Supabase', 'Ollama (LLaMA 3)', 'Tavily Search API', 'Server-Sent Events (SSE)', 'Tailwind CSS'],
-    github:'#',
+    github:'https://github.com/Omkarchikalge/ken-ai',
   },
 ]
 
