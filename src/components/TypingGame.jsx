@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { addLeaderboardEntry } from '../lib/supabase'
+import Leaderboard from './Leaderboard'
 
 const CHALLENGES = [
   { cmd: 'kubectl get pods -n production', desc: 'Check running pods in production' },
@@ -41,6 +43,10 @@ export default function TypingGame() {
   const [shake, setShake] = useState(false)
   const [flash, setFlash] = useState(false)
   const [bestWpm, setBestWpm] = useState(() => Number(localStorage.getItem('portfolio_best_wpm') || 0))
+  const [playerName, setPlayerName] = useState('')
+  const [namePrompt, setNamePrompt] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [newLeaderboardEntry, setNewLeaderboardEntry] = useState(null)
   const inputRef = useRef(null)
   const timerRef = useRef(null)
 
@@ -149,6 +155,15 @@ export default function TypingGame() {
         }}>{char}</span>
       )
     })
+  }
+
+  const submitScore = async () => {
+    if (!playerName.trim()) return
+    try {
+      await addLeaderboardEntry({ name: playerName.trim(), wpm: score.wpm, accuracy: score.accuracy, completed: score.completed })
+      setSubmitted(true)
+      setNewLeaderboardEntry({ name: playerName.trim(), wpm: score.wpm })
+    } catch { /* silent fail */ }
   }
 
   const rank = getRank(score.wpm)
@@ -329,60 +344,75 @@ export default function TypingGame() {
         {phase === 'result' && (
           <div style={{ textAlign: 'center' }}>
             <div style={{
-              display: 'inline-block',
-              fontSize: 11, padding: '4px 14px',
-              border: `1px solid ${rank.color}`,
-              color: rank.color, letterSpacing: '0.15em',
-              marginBottom: '1rem',
+              display: 'inline-block', fontSize: 11, padding: '4px 14px',
+              border: `1px solid ${rank.color}`, color: rank.color,
+              letterSpacing: '0.15em', marginBottom: '1rem',
             }}>{rank.label}</div>
 
             <div style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(3rem, 10vw, 5rem)',
-              fontWeight: 800, color: rank.color, lineHeight: 1,
-              textShadow: `0 0 40px ${rank.color}44`,
-              marginBottom: '0.3rem',
+              fontSize: 'clamp(3rem,10vw,5rem)', fontWeight: 800,
+              color: rank.color, lineHeight: 1,
+              textShadow: `0 0 40px ${rank.color}44`, marginBottom: '0.3rem',
             }}>{score.wpm}</div>
-            <div style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.1em', marginBottom: '2rem' }}>WPM (adjusted for accuracy)</div>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.1em', marginBottom: '1.5rem' }}>WPM (adjusted for accuracy)</div>
 
-            {/* Stats grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1rem', marginBottom: '2rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
               {[
-                { label: 'Accuracy', value: `${score.accuracy}%`, color: score.accuracy > 90 ? 'var(--accent)' : score.accuracy > 70 ? 'var(--amber)' : 'var(--red)' },
-                { label: 'Commands', value: score.completed, color: 'var(--blue)' },
-                { label: 'Errors', value: score.errors, color: score.errors < 5 ? 'var(--accent)' : 'var(--red)' },
-              ].map(({ label, value, color }) => (
-                <div key={label} style={{
-                  background: 'var(--bg-surface)',
-                  border: '1px solid var(--border)',
-                  padding: '1rem', borderRadius: 4,
-                }}>
-                  <div style={{ fontSize: 10, color: 'var(--text-muted)', letterSpacing: '0.1em', marginBottom: 4 }}>{label}</div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 700, color }}>{value}</div>
+                { label:'Accuracy', value:`${score.accuracy}%`, color: score.accuracy>90?'var(--accent)':score.accuracy>70?'var(--amber)':'var(--red)' },
+                { label:'Commands', value:score.completed, color:'var(--blue)' },
+                { label:'Errors',   value:score.errors,   color: score.errors<5?'var(--accent)':'var(--red)' },
+              ].map(({label,value,color}) => (
+                <div key={label} style={{ background:'var(--bg-surface)', border:'1px solid var(--border)', padding:'1rem', borderRadius:4 }}>
+                  <div style={{ fontSize:10, color:'var(--text-muted)', letterSpacing:'0.1em', marginBottom:4 }}>{label}</div>
+                  <div style={{ fontSize:'1.5rem', fontWeight:700, color }}>{value}</div>
                 </div>
               ))}
             </div>
 
-            {score.wpm > bestWpm - 1 && score.wpm === bestWpm && score.wpm > 0 && (
-              <div style={{ fontSize: 12, color: 'var(--amber)', marginBottom: '1rem' }}>
-                🏆 New personal best!
+            {/* Submit to leaderboard */}
+            {!submitted ? (
+              <div style={{ marginBottom:'1.5rem', display:'flex', gap:'0.5rem', justifyContent:'center', flexWrap:'wrap' }}>
+                <input
+                  value={playerName}
+                  onChange={e => setPlayerName(e.target.value)}
+                  onKeyDown={e => e.key==='Enter' && submitScore()}
+                  placeholder="enter your name for leaderboard"
+                  maxLength={20}
+                  style={{
+                    padding:'0.6rem 1rem', background:'var(--bg-surface)',
+                    border:'1px solid var(--border)', color:'var(--text-primary)',
+                    fontFamily:'var(--font-mono)', fontSize:12, outline:'none', minWidth:220,
+                  }}
+                  onFocus={e=>e.target.style.borderColor='var(--accent)'}
+                  onBlur={e=>e.target.style.borderColor='var(--border)'}
+                />
+                <button onClick={submitScore} disabled={!playerName.trim()} style={{
+                  padding:'0.6rem 1.2rem', background: playerName.trim()?'var(--accent)':'var(--border)',
+                  color: playerName.trim()?'#000':'var(--text-muted)',
+                  border:'none', fontFamily:'var(--font-mono)',
+                  fontSize:12, fontWeight:700, letterSpacing:'0.08em',
+                }}>submit →</button>
               </div>
+            ) : (
+              <div style={{ fontSize:12, color:'var(--accent)', marginBottom:'1.5rem' }}>✓ Score submitted to leaderboard!</div>
             )}
 
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            {/* Live leaderboard */}
+            <div style={{ marginBottom:'1.5rem', textAlign:'left' }}>
+              <Leaderboard newEntry={newLeaderboardEntry} />
+            </div>
+
+            <div style={{ display:'flex', gap:'1rem', justifyContent:'center', flexWrap:'wrap' }}>
               <button onClick={startCountdown} style={{
-                padding: '0.7rem 2rem',
-                background: 'var(--accent)', color: '#000',
-                border: 'none', fontFamily: 'var(--font-mono)',
-                fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
+                padding:'0.7rem 2rem', background:'var(--accent)', color:'#000',
+                border:'none', fontFamily:'var(--font-mono)',
+                fontSize:12, fontWeight:700, letterSpacing:'0.1em', textTransform:'uppercase',
               }}>Try Again →</button>
-              <button onClick={() => setPhase('idle')} style={{
-                padding: '0.7rem 2rem',
-                background: 'transparent',
-                border: '1px solid var(--border)',
-                color: 'var(--text-secondary)',
-                fontFamily: 'var(--font-mono)',
-                fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase',
+              <button onClick={() => { setPhase('idle'); setSubmitted(false); setPlayerName('') }} style={{
+                padding:'0.7rem 2rem', background:'transparent',
+                border:'1px solid var(--border)', color:'var(--text-secondary)',
+                fontFamily:'var(--font-mono)', fontSize:12, letterSpacing:'0.1em', textTransform:'uppercase',
               }}>← Back</button>
             </div>
           </div>

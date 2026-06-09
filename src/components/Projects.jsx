@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import useInView from './useInView'
+import { getProjectViews, incrementProjectView } from '../lib/supabase'
 
 const tagStyles = {
   platform: { bg:'var(--accent-glow)', color:'var(--accent)', border:'1px solid rgba(0,212,170,0.3)' },
@@ -90,9 +91,12 @@ function ProjectCard({ project }) {
         <div style={{position:'relative',zIndex:1}}>
           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'1rem'}}>
             <span style={{fontSize:10,padding:'3px 8px',letterSpacing:'0.15em',textTransform:'uppercase',...ts}}>{project.tagLabel}</span>
-            <a href={project.github} style={{color:'var(--text-muted)',textDecoration:'none',fontSize:16,transition:'color 0.2s'}}
-               onMouseEnter={e=>e.target.style.color='var(--accent)'}
-               onMouseLeave={e=>e.target.style.color='var(--text-muted)'}>↗</a>
+            <div style={{display:'flex',alignItems:'center',gap:'0.8rem'}}>
+              {views > 0 && <span style={{fontSize:10,color:'var(--text-muted)'}}>👁 {views}</span>}
+              <a href={project.github} style={{color:'var(--text-muted)',textDecoration:'none',fontSize:16,transition:'color 0.2s'}}
+                 onMouseEnter={e=>e.target.style.color='var(--accent)'}
+                 onMouseLeave={e=>e.target.style.color='var(--text-muted)'}>↗</a>
+            </div>
           </div>
           <div style={{fontFamily:'var(--font-display)',fontSize:'1.4rem',fontWeight:700,color:'var(--text-primary)',marginBottom:'0.6rem'}}>{project.title}</div>
           <div style={{fontSize:12.5,color:'var(--text-secondary)',lineHeight:1.7,marginBottom:'1.2rem'}}>{project.desc}</div>
@@ -125,6 +129,7 @@ function ProjectCard({ project }) {
     <div
       ref={ref}
       onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
+      onClick={onView}
       style={{
         background:'var(--bg-card)',
         border:`1px solid ${hov?'var(--accent)':'var(--border)'}`,
@@ -141,9 +146,12 @@ function ProjectCard({ project }) {
       <div style={{position:'relative',zIndex:1}}>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'1rem'}}>
           <span style={{fontSize:10,padding:'3px 8px',letterSpacing:'0.15em',textTransform:'uppercase',...ts}}>{project.tagLabel}</span>
-          <a href={project.github} style={{color:'var(--text-muted)',textDecoration:'none',fontSize:16,transition:'color 0.2s'}}
-             onMouseEnter={e=>e.target.style.color='var(--accent)'}
-             onMouseLeave={e=>e.target.style.color='var(--text-muted)'}>↗</a>
+          <div style={{display:'flex',alignItems:'center',gap:'0.8rem'}}>
+            {views > 0 && <span style={{fontSize:10,color:'var(--text-muted)'}}>👁 {views}</span>}
+            <a href={project.github} style={{color:'var(--text-muted)',textDecoration:'none',fontSize:16,transition:'color 0.2s'}}
+               onMouseEnter={e=>e.target.style.color='var(--accent)'}
+               onMouseLeave={e=>e.target.style.color='var(--text-muted)'}>↗</a>
+          </div>
         </div>
         <div style={{fontFamily:'var(--font-display)',fontSize:'1.1rem',fontWeight:700,color:'var(--text-primary)',marginBottom:'0.6rem'}}>{project.title}</div>
         <div style={{fontSize:12.5,color:'var(--text-secondary)',lineHeight:1.7,marginBottom:'1.2rem'}}>{project.desc}</div>
@@ -158,12 +166,26 @@ function ProjectCard({ project }) {
 }
 
 export default function Projects() {
+  const [viewCounts, setViewCounts] = useState({})
+
+  useEffect(() => {
+    getProjectViews().then(rows => {
+      const map = {}
+      rows.forEach(r => { map[r.project_id] = r.views })
+      setViewCounts(map)
+    }).catch(console.error)
+  }, [])
+
+  const handleProjectClick = (projectId) => {
+    incrementProjectView(projectId).catch(console.error)
+    setViewCounts(prev => ({ ...prev, [projectId]: (prev[projectId] || 0) + 1 }))
+  }
   return (
     <section id="projects">
       <div className="section-label">05 — projects</div>
       <h2><span style={{color:'var(--accent)'}}>$</span> ls projects</h2>
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1.5rem',marginTop:'3rem'}} className="projects-grid">
-        {projects.map(p => <ProjectCard key={p.id} project={p}/>)}
+        {projects.map(p => <ProjectCard key={p.id} project={p} views={viewCounts[p.projectId] || 0} onView={() => handleProjectClick(p.projectId)}/>)}
       </div>
       <style>{`@media(max-width:768px){.projects-grid{grid-template-columns:1fr!important}}`}</style>
     </section>
