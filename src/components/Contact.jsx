@@ -13,7 +13,7 @@ const socials = [
   },
   {
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/omkar-chikalge-a18a55327/',
+    href: 'https://www.linkedin.com/in/omkar-chikalge/',
     icon: (
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
         <path d="M20.45 20.45h-3.6v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.26V9h3.46v1.56h.05c.48-.91 1.65-1.87 3.4-1.87 3.63 0 4.3 2.39 4.3 5.5v6.26zM5.34 7.43a2.09 2.09 0 1 1 0-4.18 2.09 2.09 0 0 1 0 4.18zm1.8 13.02H3.54V9h3.6v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0z"/>
@@ -88,7 +88,7 @@ export default function Contact() {
       </p>
 
       <a
-        href="mailto:omkarchikalge@gmail.com"
+        href="mailto:omkar.chikalge@gmail.com"
         style={{
           fontFamily: 'var(--font-display)', fontSize: 'clamp(1.2rem,3vw,2rem)',
           fontWeight: 700, color: 'var(--text-primary)',
@@ -98,7 +98,7 @@ export default function Contact() {
         onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
         onMouseLeave={e => e.currentTarget.style.color = 'var(--text-primary)'}
       >
-        omkarchikalge@gmail.com
+        omkar.chikalge@gmail.com
       </a>
 
       <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', margin: '2rem 0 3rem' }}>

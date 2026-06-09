@@ -86,9 +86,9 @@ export default function Hero({ soundEnabled }) {
               src="/omkar.jpg"
               alt="Omkar Chikalge"
               style={{
-                width: 350,
-                height: 450,
-                marginLeft: '0.5rem', borderRadius: 16, objectFit: 'fill',
+                width: 650,
+                height: 600,
+                marginLeft: '7rem', borderRadius: 16, objectFit: 'cover',
                 display: 'block',
                 filter: 'drop-shadow(0 0 16px var(--accent))',
               }}

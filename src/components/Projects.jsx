@@ -63,7 +63,7 @@ const projects = [
   },
 ]
 
-function ProjectCard({ project }) {
+function ProjectCard({ project, views, onView }) {
   const [hov, setHov] = useState(false)
   const [ref, vis] = useInView()
   const ts = tagStyles[project.tag] || tagStyles.platform
@@ -73,6 +73,7 @@ function ProjectCard({ project }) {
       <div
         ref={ref}
         onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
+        onClick={onView}
         style={{
           gridColumn:'1 / -1',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'2rem',
           alignItems:'center',background:'var(--bg-card)',
