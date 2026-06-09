@@ -81,14 +81,14 @@ export default function Hero({ soundEnabled }) {
         </div>
 
         {/* Portrait side */}
-        <div style={{ paddingTop: 70, display: 'flex', justifyContent: 'center', alignItems: 'center' }} className="hero-right">
+        <div style={{ paddingTop: 38, display: 'flex', justifyContent: 'center', alignItems: 'center' }} className="hero-right">
             <img
               src="/omkar.jpg"
               alt="Omkar Chikalge"
               style={{
-                width: 650,
-                height: 600,
-                marginLeft: '7rem', borderRadius: 16, objectFit: 'cover',
+                width: 350,
+                height: 500,
+                marginLeft: '0.5rem', borderRadius: 10, objectFit: 'fill',
                 display: 'block',
                 filter: 'drop-shadow(0 0 16px var(--accent))',
               }}
