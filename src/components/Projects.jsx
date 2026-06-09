@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import useInView from './useInView'
 import { getProjectViews, incrementProjectView } from '../lib/supabase'
 
