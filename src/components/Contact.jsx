@@ -98,7 +98,7 @@ export default function Contact() {
         onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
         onMouseLeave={e => e.currentTarget.style.color = 'var(--text-primary)'}
       >
-        omkar.chikalge@gmail.com
+        omkarchikalge@gmail.com
       </a>
 
       <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', margin: '2rem 0 3rem' }}>

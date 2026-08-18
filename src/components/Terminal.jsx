@@ -26,11 +26,11 @@ Stage 3 → Kubernetes & Helm & Orchestration     [PLANNED]
 Stage 4 → Terraform & Cloud & IaC               [PLANNED]
 Stage 5 → Prometheus & Grafana & SLOs & SRE     [PLANNED]`,
 
-  'contact.txt': `Email   : omkar.chikalge@gmail.com
-GitHub  : github.com/omkar-chikalge
+  'contact.txt': `Email   : omkarchikalge@gmail.com
+GitHub  : github.com/Omkarchikalge
 LinkedIn: linkedin.com/in/omkar-chikalge
-Twitter : twitter.com/omkar_chikalge
-Dev.to  : dev.to/omkar_chikalge`,
+X : x.com/Omkar_2506
+Dev.to  : dev.to/omkar_chikalge_2006`,
 }
 
 const COMMANDS = {
@@ -84,8 +84,8 @@ Uptime   : always learning`,
   date: () => new Date().toString(),
 
   github: () => {
-    setTimeout(() => window.open('https://github.com/omkar-chikalge', '_blank'), 400)
-    return `Opening github.com/omkar-chikalge...`
+    setTimeout(() => window.open('https://github.com/Omkarchikalge', '_blank'), 400)
+    return `Opening github.com/Omkarchikalge...`
   },
 
   clear: () => '__CLEAR__',
