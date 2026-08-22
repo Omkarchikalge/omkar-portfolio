@@ -3,7 +3,7 @@ import { useRef, useEffect, useState } from 'react'
 const SKILL_GROUPS = [
   {
     title: 'Foundation',
-    icon: '🐧',
+    icon: '⩥',
     skills: [
       { name: 'Linux (Ubuntu/WSL2)', level: 65, color: '#f59e0b' },
       { name: 'Git & GitHub', level: 72, color: '#00d4aa' },
@@ -13,7 +13,7 @@ const SKILL_GROUPS = [
   },
   {
     title: 'Programming',
-    icon: '💻',
+    icon: '⩥',
     skills: [
       { name: 'Python', level: 68, color: '#3b82f6' },
       { name: 'JavaScript', level: 55, color: '#f59e0b' },
@@ -22,7 +22,7 @@ const SKILL_GROUPS = [
   },
   {
     title: 'Cloud & DevOps (Learning)',
-    icon: '☁️',
+    icon: '⩥',
     skills: [
       { name: 'Docker', level: 40, color: '#3b82f6' },
       { name: 'Kubernetes', level: 20, color: '#00d4aa' },

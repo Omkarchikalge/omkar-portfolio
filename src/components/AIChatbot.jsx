@@ -1,19 +1,24 @@
 import { useState, useRef, useEffect } from 'react'
 
-const OMKAR_CONTEXT = `You are an AI assistant representing Omkar Chikalge's portfolio. Answer questions about Omkar concisely and in first person as if you are Omkar. Keep answers under 80 words. Be friendly, technical, and honest.
+const ANSWERS = {
+  projects:
+    "I've built projects around Platform Engineering, real-time hand gesture recognition, cloud-native infrastructure, and Metsy.",
 
-About Omkar:
-- Engineering student in Pune, Maharashtra, India
-- Aspiring Platform Engineer and Site Reliability Engineer
-- Skills: Linux, Git, Python, Bash, basic Docker, learning Kubernetes and Terraform
-- Projects: Real-time Hand Gesture Recognition (MediaPipe + LSTM), ICRAES 2026 research paper, Platform Engineering Lab, Open Source contributions, Metsy (nightlife discovery startup for Tier 2/3 Indian cities)
-- Interests: GSoC, CNCF ecosystem, cloud-native infrastructure, developer experience
-- Looking for: internships, open source collaborations, GSoC opportunities
-- Email: omkar.chikalge@gmail.com
-- GitHub: github.com/omkar-chikalge
-- LinkedIn: linkedin.com/in/omkar-chikalge
+  internships:
+    "Yes! I'm currently open to Platform Engineering, SRE, DevOps, and cloud-native internship opportunities.",
 
-If asked something unrelated to Omkar, politely redirect back. Never make up credentials or projects not listed.`
+  stack:
+    "My current stack includes Linux, Git, Python, Bash, Docker, Kubernetes, Terraform, and cloud-native tooling.",
+
+  research:
+    "I'm working on research related to computer vision and cloud-native engineering, including my ICRAES 2026 research work.",
+
+  metsy:
+    "Metsy is a nightlife discovery startup focused on helping users discover nightlife experiences in Tier 2 and Tier 3 Indian cities.",
+
+  contact:
+    "You can reach me at omkarchikalge@gmail.com, or connect with me through GitHub and LinkedIn."
+}
 
 const SUGGESTED = [
   'What projects have you built?',
@@ -42,35 +47,77 @@ export default function AIChatbot() {
     if (open) setTimeout(() => inputRef.current?.focus(), 100)
   }, [open])
 
-  const send = async (text) => {
+  const send = (text) => {
     const msg = text || input.trim()
+
     if (!msg || loading) return
+
     setInput('')
 
-    const userMsg = { role: 'user', content: msg }
-    const newMessages = [...messages, userMsg]
-    setMessages(newMessages)
+    const userMsg = {
+      role: 'user',
+      content: msg
+    }
+
+    setMessages(prev => [...prev, userMsg])
     setLoading(true)
 
-    try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          system: OMKAR_CONTEXT,
-          messages: newMessages.map(m => ({ role: m.role, content: m.content })),
-        }),
-      })
-      const data = await res.json()
-      const reply = data.content?.[0]?.text || "Sorry, I couldn't get a response right now."
-      setMessages(prev => [...prev, { role: 'assistant', content: reply }])
-    } catch {
-      setMessages(prev => [...prev, { role: 'assistant', content: "Network error — try again or reach out directly at omkar.chikalge@gmail.com" }])
-    } finally {
-      setLoading(false)
+    const q = msg.toLowerCase()
+
+    let answer =
+      "I can answer questions about Omkar's skills, projects, research, internships, and contact information."
+
+    if (
+      q.includes('project') ||
+      q.includes('built')
+    ) {
+      answer = ANSWERS.projects
+
+    } else if (
+      q.includes('internship') ||
+      q.includes('intern')
+    ) {
+      answer = ANSWERS.internships
+
+    } else if (
+      q.includes('skill') ||
+      q.includes('stack') ||
+      q.includes('technology') ||
+      q.includes('technologies')
+    ) {
+      answer = ANSWERS.stack
+
+    } else if (
+      q.includes('research') ||
+      q.includes('paper')
+    ) {
+      answer = ANSWERS.research
+
+    } else if (
+      q.includes('metsy')
+    ) {
+      answer = ANSWERS.metsy
+
+    } else if (
+      q.includes('contact') ||
+      q.includes('email') ||
+      q.includes('reach')
+    ) {
+      answer = ANSWERS.contact
     }
+
+    // Small delay to keep the chatbot feeling natural
+    setTimeout(() => {
+      setMessages(prev => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: answer
+        }
+      ])
+
+      setLoading(false)
+    }, 400)
   }
 
   const onKey = e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() } }
@@ -127,8 +174,22 @@ export default function AIChatbot() {
             <div>
               <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>Omkar's AI</div>
               <div style={{ fontSize: 10, color: 'var(--accent)', display: 'flex', alignItems: 'center', gap: 4 }}>
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)', display: 'inline-block' }}/>
-                online — powered by Claude
+                <div style={{
+                  fontSize: 10,
+                  color: 'var(--accent)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 4
+                }}>
+                  <span style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: '50%',
+                    background: 'var(--accent)',
+                    display: 'inline-block'
+                  }} />
+                  online — portfolio assistant
+                </div>
               </div>
             </div>
           </div>
@@ -160,12 +221,12 @@ export default function AIChatbot() {
 
             {loading && (
               <div style={{ display: 'flex', gap: 4, padding: '0.4rem 0' }}>
-                {[0,1,2].map(i => (
+                {[0, 1, 2].map(i => (
                   <div key={i} style={{
                     width: 6, height: 6, borderRadius: '50%',
                     background: 'var(--accent)',
                     animation: `dotBounce 1.2s ease ${i * 0.2}s infinite`,
-                  }}/>
+                  }} />
                 ))}
               </div>
             )}
@@ -183,8 +244,8 @@ export default function AIChatbot() {
                     transition: 'all 0.15s', textAlign: 'left',
                     borderRadius: 20,
                   }}
-                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,212,170,0.2)'}
-                  onMouseLeave={e => e.currentTarget.style.background = 'var(--accent-glow)'}
+                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,212,170,0.2)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'var(--accent-glow)'}
                   >{q}</button>
                 ))}
               </div>
