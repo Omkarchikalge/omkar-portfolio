@@ -104,73 +104,73 @@ function AnimatedName() {
 // ── Orbit tools ───────────────────────────────────────────────────
 const INNER = [
   {
-    logo: 'https://cdn.simpleicons.org/docker',
+    logo: '/logos/Docker.svg',
     label: 'Docker'
   },
   {
-    logo: 'https://icon.icepanel.io/Technology/png-shadow-512/Linux.png',
+    logo: '/logos/Linux.svg',
     label: 'Linux'
   },
   {
-    logo: 'https://cdn.simpleicons.org/kubernetes',
+    logo: '/logos/Kubernetes.svg',
     label: 'Kubernetes'
   },
   {
-    logo: 'https://cdn.simpleicons.org/terraform',
+    logo: '/logos/HashiCorp Terraform.svg',
     label: 'Terraform'
   },
 ]
 
 const MIDDLE = [
   {
-    logo: 'https://cdn.worldvectorlogo.com/logos/aws-2.svg',
+    logo: '/logos/AWS.svg',
     label: 'AWS'
   },
   {
-    logo: 'https://icon.icepanel.io/Technology/svg/Argo-CD.svg',
+    logo: '/logos/Argo CD.svg',
     label: 'ArgoCD'
   },
   {
-    logo: 'https://cdn.worldvectorlogo.com/logos/jenkins-1.svg',
+    logo: '/logos/Jenkins.svg',
     label: 'Jenkins'
   },
   {
-    logo: 'https://cdn.worldvectorlogo.com/logos/d9a2c723-814b-41f6-9f50-0edb1cdacb33/azure-devops-2.svg',
+    logo: '/logos/Azure Devops.svg',
     label: 'Azure-DevOps'
   },
   {
-    logo: 'https://cdn.worldvectorlogo.com/logos/github-icon-2.svg',
+    logo: '/logos/GitHub.svg',
     label: 'GitHub'
   },
 ]
 
 const OUTER = [
   {
-    logo: 'https://cdn.worldvectorlogo.com/logos/gitlab.svg',
+    logo: '/logos/GitLab.svg',
     label: 'GitLab'
   },
   {
-    logo: 'https://icon.icepanel.io/Technology/svg/OpenTelemetry.svg',
+    logo: '/logos/OpenTelemetry.svg',
     label: 'OpenTelemetry'
   },
   {
-    logo: 'https://cdn.worldvectorlogo.com/logos/ansible.svg',
+    logo: '/logos/Ansible (1).svg',
     label: 'Ansible'
   },
   {
-    logo: 'https://cdn.worldvectorlogo.com/logos/prometheus.svg',
+    logo: '/logos/Prometheus.svg',
     label: 'Prometheus'
   },
   {
-    logo: 'https://cdn.worldvectorlogo.com/logos/grafana.svg',
+    logo: '/logos/Grafana.svg',
     label: 'Grafana'
   },
   {
-    logo: 'https://cdn.worldvectorlogo.com/logos/python-5.svg',
+    logo: '/logos/Python.svg',
     label: 'Python'
   },
   {
-    logo: 'https://icon.icepanel.io/Technology/svg/Google-Cloud.svg',
+    logo: '/logos/Google Cloud.svg',
     label: 'Google Cloud'
   },
 ]
