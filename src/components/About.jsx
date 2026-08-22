@@ -3,22 +3,22 @@ import useInView from './useInView'
 
 const learningPath = [
   {
-    logo: 'https://icon.icepanel.io/Technology/png-shadow-512/Linux.png',
+    logo: '/logos/Linux.svg',
     name: 'Linux & Platform Engineering Journey',
     provider: 'Currently Building Foundations'
   },
   {
-    logo: 'https://cdn.simpleicons.org/docker',
+    logo: '/logos/Docker.svg',
     name: 'Docker & Containers',
     provider: 'Actively Learning'
   },
   {
-    logo: 'https://cdn.simpleicons.org/kubernetes',
+    logo: '/logos/Kubernetes.svg',
     name: 'Kubernetes',
     provider: 'Next Focus Area'
   },
   {
-    logo: 'https://cdn.simpleicons.org/terraform',
+    logo: '/logos/HashiCorp Terraform.svg',
     name: 'Terraform & IaC',
     provider: 'Planned Learning Path'
   },
